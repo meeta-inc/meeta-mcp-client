@@ -149,12 +149,32 @@ async function handleMcpRequest(request) {
       };
     }
     
-    // 기타 메소드는 그대로 전달
-    const httpResponse = await sendHttpRequest(request);
+    // prompts/list 메소드 처리 (빈 배열 반환)
+    if (method === 'prompts/list') {
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: { prompts: [] }
+      };
+    }
+    
+    // resources/list 메소드 처리 (빈 배열 반환)
+    if (method === 'resources/list') {
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: { resources: [] }
+      };
+    }
+    
+    // 알 수 없는 메소드
     return {
       jsonrpc: '2.0',
-      id: request.id,
-      result: httpResponse
+      id,
+      error: {
+        code: -32601,
+        message: `Method not found: ${method}`
+      }
     };
     
   } catch (error) {
