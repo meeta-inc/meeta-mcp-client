@@ -111,7 +111,8 @@ async function handleMcpRequest(request) {
     // tools/list 메소드 처리
     if (request.method === 'tools/list') {
       const httpResponse = await sendHttpRequest({
-        action: 'listTools'
+        method: 'tools/list',
+        params: {}
       });
       
       return {
@@ -126,15 +127,25 @@ async function handleMcpRequest(request) {
     // tools/call 메소드 처리
     if (request.method === 'tools/call') {
       const httpResponse = await sendHttpRequest({
-        action: 'callTool',
-        toolName: request.params.name,
-        arguments: request.params.arguments
+        method: 'tools/call',
+        params: {
+          name: request.params.name,
+          arguments: request.params.arguments
+        }
       });
       
+      // 응답을 MCP 형식으로 변환
       return {
         jsonrpc: '2.0',
         id: request.id,
-        result: httpResponse
+        result: {
+          content: [
+            {
+              type: 'text',
+              text: typeof httpResponse === 'string' ? httpResponse : JSON.stringify(httpResponse, null, 2)
+            }
+          ]
+        }
       };
     }
     
@@ -230,7 +241,7 @@ if (require.main === module && process.argv.includes('--test')) {
     writable: true
   });
   
-  sendHttpRequest({ action: 'listTools' }, testEndpoint)
+  sendHttpRequest({ method: 'tools/list', params: {} }, testEndpoint)
     .then(response => {
       console.log('Success! Available tools:');
       console.log(JSON.stringify(response, null, 2));
