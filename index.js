@@ -150,19 +150,19 @@ async function handleMcpRequest(request) {
     }
     
     // prompts/list 메소드 처리 (빈 배열 반환)
-    if (method === 'prompts/list') {
+    if (request.method === 'prompts/list') {
       return {
         jsonrpc: '2.0',
-        id,
+        id: request.id,
         result: { prompts: [] }
       };
     }
     
     // resources/list 메소드 처리 (빈 배열 반환)
-    if (method === 'resources/list') {
+    if (request.method === 'resources/list') {
       return {
         jsonrpc: '2.0',
-        id,
+        id: request.id,
         result: { resources: [] }
       };
     }
@@ -170,10 +170,10 @@ async function handleMcpRequest(request) {
     // 알 수 없는 메소드
     return {
       jsonrpc: '2.0',
-      id,
+      id: request.id,
       error: {
         code: -32601,
-        message: `Method not found: ${method}`
+        message: `Method not found: ${request.method}`
       }
     };
     
