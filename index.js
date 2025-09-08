@@ -198,8 +198,8 @@ rl.on('line', async (line) => {
     // 응답 전송
     const responseStr = JSON.stringify(response);
     
-    // LSP 스타일 응답 (Content-Length 헤더 포함)
-    process.stdout.write(`Content-Length: ${responseStr.length}\r\n\r\n${responseStr}`);
+    // Claude Desktop은 순수 JSON만 기대함 (Content-Length 헤더 없이)
+    console.log(responseStr);
     
   } catch (e) {
     // JSON이 완성되지 않았거나 파싱 에러
