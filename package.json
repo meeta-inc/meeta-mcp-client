@@ -1,0 +1,32 @@
+{
+  "name": "@meeta/mcp-http-proxy",
+  "version": "1.0.0",
+  "description": "HTTP proxy client for Meeta MCP Server - enables remote access to AWS services",
+  "main": "index.js",
+  "bin": {
+    "meeta-mcp-proxy": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol", 
+    "meeta",
+    "aws",
+    "proxy",
+    "client"
+  ],
+  "author": "Meeta Inc",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meeta-inc/meeta-mcp-client"
+  }
+}
