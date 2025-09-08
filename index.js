@@ -167,6 +167,12 @@ async function handleMcpRequest(request) {
       };
     }
     
+    // notifications/initialized 처리 (응답 없음)
+    if (request.method === 'notifications/initialized') {
+      // 알림은 응답이 필요없음
+      return null;
+    }
+    
     // 알 수 없는 메소드
     return {
       jsonrpc: '2.0',
@@ -215,11 +221,14 @@ rl.on('line', async (line) => {
     // MCP 요청 처리
     const response = await handleMcpRequest(request);
     
-    // 응답 전송
-    const responseStr = JSON.stringify(response);
-    
-    // Claude Desktop은 순수 JSON만 기대함 (Content-Length 헤더 없이)
-    console.log(responseStr);
+    // null 응답은 전송하지 않음 (notifications 등)
+    if (response !== null) {
+      // 응답 전송
+      const responseStr = JSON.stringify(response);
+      
+      // Claude Desktop은 순수 JSON만 기대함 (Content-Length 헤더 없이)
+      console.log(responseStr);
+    }
     
   } catch (e) {
     // JSON이 완성되지 않았거나 파싱 에러
