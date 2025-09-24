@@ -46,7 +46,12 @@ async function sendHttpRequest(data, endpoint = null) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'meeta-mcp-proxy/1.0.0'
+        'User-Agent': 'meeta-mcp-proxy/1.0.0',
+        // Jira 환경변수를 HTTP 헤더로 전달
+        ...(process.env.JIRA_HOST && { 'X-Jira-Host': process.env.JIRA_HOST }),
+        ...(process.env.JIRA_EMAIL && { 'X-Jira-Email': process.env.JIRA_EMAIL }),
+        ...(process.env.JIRA_API_TOKEN && { 'X-Jira-Api-Token': process.env.JIRA_API_TOKEN }),
+        ...(process.env.JIRA_DEFAULT_PROJECT && { 'X-Jira-Default-Project': process.env.JIRA_DEFAULT_PROJECT })
       },
       timeout: 30000
     };

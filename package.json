@@ -1,6 +1,6 @@
 {
   "name": "@meeta/mcp-http-proxy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HTTP proxy client for Meeta MCP Server - enables remote access to AWS services",
   "main": "index.js",
   "bin": {
