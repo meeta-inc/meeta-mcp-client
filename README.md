@@ -53,6 +53,7 @@ open ~/Library/Application\ Support/Claude/claude_desktop_config.json
 - **Amplify**: 앱 목록, 빌드 상태 분석
 - **EC2**: 인스턴스 목록, 리소스 분석
 - **RDS**: 데이터베이스 목록, 백업 분석
+- **Jira**: 이슈 관리, 프로젝트 관리, 스프린트 관리
 - **기타**: CloudWatch, SQS, SNS, CloudFormation, ECS, IAM 등
 
 ## 커스텀 엔드포인트 사용
@@ -90,6 +91,30 @@ open ~/Library/Application\ Support/Claude/claude_desktop_config.json
 }
 ```
 
+## 클라이언트별 환경변수 설정 (v1.1.0+)
+
+각 클라이언트가 자신의 Jira 계정 등을 사용할 수 있도록 환경변수를 설정할 수 있습니다:
+
+```json
+{
+  "mcpServers": {
+    "meeta-mcp": {
+      "command": "npx",
+      "args": ["-y", "@meeta/mcp-http-proxy"],
+      "env": {
+        "MEETA_MCP_ENDPOINT": "https://izlh8w6043.execute-api.ap-northeast-1.amazonaws.com/dev/mcp",
+        "JIRA_HOST": "https://your-company.atlassian.net",
+        "JIRA_EMAIL": "your-email@example.com",
+        "JIRA_API_TOKEN": "your-api-token",
+        "JIRA_DEFAULT_PROJECT": "PROJ"
+      }
+    }
+  }
+}
+```
+
+설정된 환경변수는 HTTP 헤더로 서버에 전달되어 각 클라이언트별로 다른 계정을 사용할 수 있습니다.
+
 ## 테스트
 
 ```bash
@@ -98,6 +123,9 @@ npx @meeta/mcp-http-proxy --test
 
 # 디버그 모드
 DEBUG=true npx @meeta/mcp-http-proxy
+
+# 환경변수 전달 테스트
+node test-env-headers.js
 ```
 
 ## 문제 해결
